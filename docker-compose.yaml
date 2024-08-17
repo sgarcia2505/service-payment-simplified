@@ -1,0 +1,66 @@
+
+services:
+  nginx:
+    container_name: service-payment-simplified-nginx
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    working_dir: /var/www/service-payment-simplified
+    links:
+      - php-fpm
+    ports:
+      - "11074:80"
+    volumes:
+      - ./:/var/www/service-payment-simplified
+    networks:
+      - laravel
+
+  php-fpm:
+    container_name: service-payment-simplified-php-fpm
+    user: $DOCKER_USER:$DOCKER_GROUP
+    restart: unless-stopped
+    working_dir: /var/www/service-payment-simplified
+    build:
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
+    volumes:
+      - ./:/var/www/service-payment-simplified
+    networks:
+      - laravel
+
+  db:
+    container_name: service-payment-simplified-db
+    image: mysql:8.0.26
+    platform: linux/x86_64
+    user: $DOCKER_USER:$DOCKER_GROUP
+    command: --log-output=file --general-log=1 --general-log-file=/var/log/mysql/mysql.log
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: service-payment-simplified-db
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./runtime/docker/db/data:/var/lib/mysql
+      - ./runtime/docker/db/log:/var/log/mysql
+    networks:
+      - laravel
+
+  redis:
+    image: redis
+    container_name: service-payment-simplified-redis
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "6383:6379"
+    networks:
+      - laravel
+
+networks:
+  laravel:
+    driver: bridge
