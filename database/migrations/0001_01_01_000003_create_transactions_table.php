@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->float('amount');
-            $table->integer('user_id_sender');
-            $table->integer('user_id_receiver');
+            $table->integer('amount');
+            $table->integer('customer_id_sender');
+            $table->integer('customer_id_receiver');
+            $table->string('status');
             $table->timestamps();
         });
     }
