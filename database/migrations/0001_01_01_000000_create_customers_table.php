@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('document_type');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('user_type');
+            $table->string('phone');
+            $table->string('customer_type');
             $table->timestamps();
         });
     }

@@ -1,3 +1,10 @@
+# Sistema de Pagamento Simples
+API responsavel por gerir transaferencias monetarias entre clientes
+
+# Modelagem de dados
+![](./documents/service-payment-simplified-db.png)
+
+# Configurando o projeto
 Crie o Arquivo .env
 ```sh
 cp .env.example .env

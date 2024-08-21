@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->integer('amount');
-            $table->integer('customer_id_sender');
+            $table->integer('customer_id_payer');
             $table->integer('customer_id_receiver');
             $table->string('status');
             $table->timestamps();
