@@ -16,7 +16,9 @@ class TransactionService
 
     public function postTransaction($transactionPayload)
     {
-        
+        //validar se customer_id_payer é de um cliente comum
+        //validar se o customer_id_payer tem saldo para ser enviado
+        //autorizador no servidor externo    
         $this->transactionRepository->create($transactionPayload);
     }
 
